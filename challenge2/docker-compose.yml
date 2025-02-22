@@ -1,0 +1,13 @@
+services:
+  ctf-web:
+    build: .
+    ports:
+      - "8080:5000"
+    environment:
+      - FLASK_APP=main.py
+      - FLASK_ENV=production
+    volumes:
+      - ./app:/app
+      - ./data:/data
+    working_dir: /app
+    restart: unless-stopped

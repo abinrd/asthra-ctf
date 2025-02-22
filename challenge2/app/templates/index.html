@@ -1,0 +1,124 @@
+<html>
+<head>
+    <title>Secure Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #00ff00;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        input {
+            padding: 0.8rem;
+            border: 1px solid #00ff00;
+            background: #333;
+            color: #00ff00;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            padding: 0.8rem;
+            background: #00ff00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #00cc00;
+        }
+        .hint {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .terminal-hint {
+            background: #333;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            font-family: monospace;
+            position: relative;
+        }
+        .error-msg {
+            color: #ff4444;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Admin Access Required</h2>
+        <div class="login-form">
+            <input type="text" id="user" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="checkLogin()">Login</button>
+            <div id="error-msg" class="error-msg"></div>
+        </div>
+        <div class="hint">
+            💡 Hint: Sometimes the most basic SQL operations can reveal secrets...
+        </div>
+        <div class="terminal-hint">
+            > Remember: APIs often expect specific content types...
+            > Try investigating how the login request is made
+        </div>
+    </div>
+
+    <script>
+        async function checkLogin() {
+            const username = document.getElementById('user').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.status === 'error') {
+                    document.getElementById('error-msg').style.display = 'block';
+                    document.getElementById('error-msg').textContent = data.message;
+                }
+                
+                // Check response headers
+                response.headers.forEach((value, key) => {
+                    if (key.toLowerCase().includes('x-')) {
+                        console.log(`Found interesting header: ${key}`);
+                    }
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

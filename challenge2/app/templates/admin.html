@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #00ff00;
+            margin: 0;
+            padding: 2rem;
+        }
+        .console {
+            background: #2a2a2a;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: monospace;
+            margin-top: 1rem;
+        }
+        .error {
+            color: #ff4444;
+            margin-top: 1rem;
+        }
+        .comment {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel - Access Denied</h1>
+    <div class="console">
+        > Checking permissions...
+        > Access denied
+        > Hint: Secrets often hide in unexpected places...
+        > Try exploring other endpoints
+    </div>
+    <div class="comment">
+        <!-- Note: Important data usually stored in /api endpoints -->
+        <!-- Debug: Remember to check response headers -->
+    </div>
+    <script>
+        // Encoded hint about secrets
+        console.log(btoa("Check the secrets table..."));
+    </script>
+</body>
+</html>
